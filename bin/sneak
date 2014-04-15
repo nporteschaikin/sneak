@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 var Parser = require('../lib/parser')
+  , fs = require("fs")
 
-p = new Parser('html\n#head {block:Posts}')
+p = new Parser(fs.readFileSync('sample.sneak', 'utf8'))
 p.parse()
+console.log(p.lexer.tokens)
