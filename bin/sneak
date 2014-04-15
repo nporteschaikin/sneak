@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+var Parser = require('../lib/parser')
+
+p = new Parser('html\n#head {block:Posts}')
+p.parse()

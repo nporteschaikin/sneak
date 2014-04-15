@@ -1,0 +1,33 @@
+{
+  "name": "sneak",
+  "version": "0.0.1",
+  "author": "Carrot Creative <dev@carrotcreative.com>",
+  "description": "Tumblr theme parser and compiler",
+  "license": "MIT",
+  "keywords": [
+    "tumblr",
+    "theme",
+    "compiler",
+    "parser"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carrot/sneak.git"
+  },
+  "main": "lib",
+  "directories": {
+    "lib": "lib",
+    "bin": "bin"
+  },
+  "dependencies": {
+    "when": "*",
+    "request": "*",
+    "jade": "*"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
