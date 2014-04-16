@@ -16,7 +16,7 @@ To quote [@jenius](https://github.com/carrot/carrot-the-company/blob/master/idea
 My answer is **sneak**, a template engine that looks familiar to jade users but has been sanded down and re-tooled for Tumblr theme development.
 
 ### Syntax
-```jade
+```
 ! 5
 html
   head
