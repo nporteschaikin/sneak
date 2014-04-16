@@ -1,7 +1,20 @@
 #!/usr/bin/env node
-var Parser = require('../lib/parser')
-  , fs = require("fs")
+require('colors');
 
-p = new Parser(fs.readFileSync('sample.sneak', 'utf8'))
-p.parse()
-console.log(p.lexer.tokens)
+var Sneak = require('..')
+  , args = process.argv.slice(2)
+  , cmd = args[0]
+  , path = require('path');
+
+switch (cmd) {
+case "render":
+  Sneak.renderFile(path.join(process.cwd(), args[1]), 'utf8',
+    function (err, response){
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(response);
+      }
+    }
+  )
+}

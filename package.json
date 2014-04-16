@@ -22,7 +22,8 @@
   "dependencies": {
     "when": "*",
     "request": "*",
-    "jade": "*"
+    "jade": "*",
+    "colors": "0.6.x"
   },
   "scripts": {
     "test": "mocha"
