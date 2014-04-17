@@ -20,23 +20,31 @@ My answer is **sneak**, a template engine that looks familiar to jade users but 
 ! 5
 html
   head
-    title
-      - PageTitle:
-        #{Title}
+    - PageTitle:
+      title= Title
   body
     - Posts:
-      : "post.sneak"
+      div= "post.sneak"
+```
+```
+h1= Title
+p= Content
 ```
 becomes:
 ```html
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{block:PageTitle}{Title}{/block:PageTitle}</title>
+    {block:PageTitle}
+      <title>{Title}</title>
+    {/block:PageTitle}
   </head>
   <body>
     {block:Posts}
-      <h1>{Title}</h1>
+      <div>
+        <h1>{Title}</h1>
+        <p>{Content}</p>
+      </div>
     {/block:Posts}
   </body>
 </html>
