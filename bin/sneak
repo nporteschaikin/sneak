@@ -8,14 +8,5 @@ var Sneak = require('..')
 
 switch (cmd) {
 case "render":
-  var path = path.resolve(process.cwd(), args[1]);
-  Sneak.renderFile(path, 'utf8',
-    function (err, response){
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(response);
-      }
-    }
-  )
+  Sneak.renderFile(path.resolve(process.cwd(), args[1]));
 }
