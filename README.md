@@ -54,4 +54,4 @@ becomes:
 ```
 
 ### Usage
-`sneak render tumblr.sneak`
+`sneak tumblr.sneak`
