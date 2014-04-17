@@ -25,7 +25,7 @@ html
         #{Title}
   body
     - Posts:
-      h1 #{Title}
+      : "post.sneak"
 ```
 becomes:
 ```html
