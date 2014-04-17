@@ -23,6 +23,8 @@ html
     - PageTitle:
       title= Title
   body
+    header.
+      My first Tumblr
     - Posts:
       div= "post.sneak"
 ```
@@ -40,6 +42,7 @@ becomes:
     {/block:PageTitle}
   </head>
   <body>
+    <header>My first Tumblr</header>
     {block:Posts}
       <div>
         <h1>{Title}</h1>
