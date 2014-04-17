@@ -20,9 +20,6 @@
     "bin": "bin"
   },
   "dependencies": {
-    "when": "*",
-    "request": "*",
-    "jade": "*",
     "colors": "0.6.x"
   },
   "scripts": {
@@ -30,5 +27,10 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "chai": "*",
+    "mocha": "*"
   }
 }
