@@ -1,6 +1,13 @@
 #!/usr/bin/env node
-require('colors');
-var cli = new (require('../lib/cli'));
-cli.emitter.on('error', console.error.bind(console))
-cli.emitter.on('response', console.log.bind(console))
-cli.run(process.argv.slice(2));
+var ArgumentParser = require('argparse').ArgumentParser
+  , args
+  , pkg = require('../package.json')
+  , Sneak = require('../')
+  , parser = new ArgumentParser ( {
+    version: pkg.version,
+    addHelp: true,
+    description: pkg.description
+  })
+
+arguments = parser.parseArgs(process.argv.slice(3));
+console.log(Sneak.renderFile(process.argv[2], arguments));
