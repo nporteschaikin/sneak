@@ -21,10 +21,10 @@ My answer is **sneak**, a template engine that looks familiar to jade users but 
 html
   head
     title
-      - PageTitle
+      - PageTitle:
         #{Title}
   body
-    - Posts
+    - Posts:
       h1 #{Title}
 ```
 becomes:

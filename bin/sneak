@@ -8,7 +8,8 @@ var Sneak = require('..')
 
 switch (cmd) {
 case "render":
-  Sneak.renderFile(path.join(process.cwd(), args[1]), 'utf8',
+  var path = path.resolve(process.cwd(), args[1]);
+  Sneak.renderFile(path, 'utf8',
     function (err, response){
       if (err) {
         console.error(err);
