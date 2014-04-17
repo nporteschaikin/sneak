@@ -12,5 +12,5 @@ global.Sneak = Sneak;
 global.base_path = base_path;
 
 global.render = function(p){
-  return Sneak.renderFile(path.join(base_path, p));
+  return Sneak.renderFile({ path: path.join(base_path, p) });
 }
