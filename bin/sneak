@@ -1,12 +1,9 @@
 #!/usr/bin/env node
+
 require('colors');
+var cli = new (require('../lib/cli'));
 
-var Sneak = require('..')
-  , args = process.argv.slice(2)
-  , cmd = args[0]
-  , path = require('path');
+cli.emitter.on('err', console.error.bind(console))
+cli.emitter.on('data', console.log.bind(console))
 
-switch (cmd) {
-case "render":
-  Sneak.renderFile(path.resolve(process.cwd(), args[1]));
-}
+cli.run(process.argv.slice(2));
