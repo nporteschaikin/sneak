@@ -20,7 +20,8 @@
     "bin": "bin"
   },
   "dependencies": {
-    "colors": "0.6.x"
+    "colors": "0.6.x",
+    "argparse": "*"
   },
   "scripts": {
     "test": "mocha"
