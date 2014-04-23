@@ -2,13 +2,13 @@
   "name": "sneak",
   "version": "0.0.1",
   "author": "Carrot Creative <dev@carrotcreative.com>",
-  "description": "Tumblr theme parser and compiler",
+  "description": "A template engine written for Tumblr",
   "license": "MIT",
   "keywords": [
     "tumblr",
-    "theme",
-    "compiler",
-    "parser"
+    "template",
+    "engine",
+    "html"
   ],
   "repository": {
     "type": "git",
