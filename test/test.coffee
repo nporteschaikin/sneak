@@ -6,6 +6,17 @@ describe 'api', ->
     Sneak.render.should.be.a 'function'
     Sneak.renderFile.should.be.a 'function'
 
+  describe 'render', ->
+
+    it 'should fail to compile with a non-sneak string', ->
+      (-> Sneak.render('<html><head></head></html>')).should.throw()
+
+    it 'should compile with a sneak string', ->
+      (-> Sneak.render('!5\nhtml\n  head')).should.not.throw()
+
+    it 'should throw error if specified local is undefined', ->
+      (-> Sneak.render('!5\nhtml\n  head hello #{bar!}', { foo: "bar" })).should.throw()
+
 describe 'doctypes', ->
 
   it 'should correctly render html5 doctype', ->
