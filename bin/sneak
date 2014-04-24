@@ -1,9 +1,4 @@
 #!/usr/bin/env node
 
-require('colors');
-var cli = new (require('../lib/cli'));
-
-cli.emitter.on('err', console.error.bind(console))
-cli.emitter.on('data', console.log.bind(console))
-
-cli.run(process.argv.slice(2));
+var cli = require('../lib/cli');
+new cli(process.argv.slice(2)).exec();
