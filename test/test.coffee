@@ -14,8 +14,8 @@ describe 'api', ->
     it 'should compile with a sneak string', ->
       (-> Sneak.render('!5\nhtml\n  head')).should.not.throw()
 
-    it 'should throw error if specified local is undefined', ->
-      (-> Sneak.render('!5\nhtml\n  head hello #{bar!}', { foo: "bar" })).should.throw()
+    it 'should render with specified local', ->
+      Sneak.render('!5\nhtml\n  head\n    title #{foo!}', {foo: "bar"}).indexOf("bar").should.eq(1)
 
 describe 'doctypes', ->
 
