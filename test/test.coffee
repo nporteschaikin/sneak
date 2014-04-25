@@ -1,9 +1,17 @@
 cli = new (require '../lib/cli')
-path = require('path');
-sneak = require('..');
+path = require 'path'
+sneak = require '..'
+fs = require 'fs'
 
 __fixtures = path.join(__dirname, 'fixtures')
 read = fs.readFileSync
+exists = fs.existsSync
+rm = fs.unlinkSync
+rmdir = fs.rmdirSync
+
+rmIfExists = (path) ->
+  rm(path) if exists(path)
+  path
 
 describe 'API', ->
 
@@ -41,6 +49,20 @@ describe 'API', ->
 
     it 'should render', ->
       sneak.renderFile(path.join(__fixtures, 'renderFile/render.sneak')).should.eq("<!DOCTYPE html><html><head><title>Test</title></head><body><p>Hey</p></body></html>");
+
+  describe '.compile()', ->
+
+
+  describe '.compileFile()', ->
+
+    it 'should throw error with an invalid path', ->
+      (-> sneak.compileFile("ack")).should.throw()
+
+    it 'should not throw error if file exists', ->
+      (-> sneak.compileFile(path.join(__fixtures, 'compileFile/file.sneak'))).should.not.throw()
+
+    it 'should return JS', ->
+      sneak.compileFile(path.join(__fixtures, 'compileFile/file.sneak')).toString().should.eq('function anonymous(locals) {\nreturn "<h1>Test</h1>";\n}')
 
 describe 'doctypes', ->
 
@@ -97,29 +119,48 @@ describe 'cli', ->
     (-> cli.exec()).should.not.throw();
 
   it 'compiles a file', ->
+    p1 = rmIfExists(path.join(__fixtures, 'cli/file/file.html'))
+
     cli.opts = { paths: [path.join(__fixtures, "cli/file/file.sneak")] }
     cli.exec()
-    read(path.join(__fixtures, 'cli/file/file.html'), 'utf8').should.eq("<h1>Test</h1>");
+
+    read(p1, 'utf8').should.eq("<h1>Test</h1>");
 
   it 'compiles a folder', ->
+    p1 = rmIfExists(path.join(__fixtures, 'cli/folder/folder.html'))
+    p2 = rmIfExists(path.join(__fixtures, 'cli/folder/folder2.html'))
+
     cli.opts = { paths: [path.join(__fixtures, "cli/folder")] }
     cli.exec()
-    read(path.join(__fixtures, 'cli/folder/folder.html'), 'utf8').should.eq("<h1>Test</h1>");
-    read(path.join(__fixtures, 'cli/folder/folder2.html'), 'utf8').should.eq("<h1>Test</h1>");
+
+    read(p1, 'utf8').should.eq("<h1>Test</h1>");
+    read(p2, 'utf8').should.eq("<h1>Test</h1>");
 
   it 'compiles to another folder', ->
+    folder = path.join(__fixtures, 'cli/another_folder/')
+    p1 = rmIfExists(path.join(folder, 'folder.html'))
+    p2 = rmIfExists(path.join(folder, 'folder2.html'))
+    rmdir(folder) if exists(folder)
+
     cli.opts = { paths: [path.join(__fixtures, "cli/folder")], out: path.join(__fixtures, "cli/another_folder") }
     cli.exec()
-    read(path.join(__fixtures, 'cli/another_folder/folder.html'), 'utf8').should.eq("<h1>Test</h1>");
-    read(path.join(__fixtures, 'cli/another_folder/folder2.html'), 'utf8').should.eq("<h1>Test</h1>");
+
+    read(p1, 'utf8').should.eq("<h1>Test</h1>");
+    read(p2, 'utf8').should.eq("<h1>Test</h1>");
 
   it 'compiles with specified extension', ->
+    p1 = rmIfExists(path.join(__fixtures, 'cli/extension/extension.htm'))
+
     cli.opts = { paths: [path.join(__fixtures, "cli/extension")], extension: '.htm' }
     cli.exec()
-    read(path.join(__fixtures, 'cli/extension/extension.htm'), 'utf8').should.eq("<h1>test</h1>");
+
+    read(p1, 'utf8').should.eq("<h1>test</h1>");
 
   it 'compiles a client', ->
+    p1 = rmIfExists(path.join(__fixtures, 'cli/client/client.js'))
+
     cli.opts = { paths: [path.join(__fixtures, "cli/client")], client: true }
     cli.exec()
-    fn = new Function("return " + read(path.join(__fixtures, 'cli/client/client.js'), 'utf8'));
+
+    fn = new Function("return " + read(p1, 'utf8'));
     fn()({foo: "bar"}).should.eq('<h1>bar</h1><p>Why are we here?</p>');
