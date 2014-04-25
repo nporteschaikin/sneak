@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 var cli = require('../lib/cli');
-new cli(process.argv.slice(2)).exec();
+new cli(process).exec();
