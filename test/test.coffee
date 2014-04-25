@@ -1,96 +1,125 @@
-cli = new (require '../lib/cli')(debug: true)
+cli = new (require '../lib/cli')
+path = require('path');
+sneak = require('..');
+
+__fixtures = path.join(__dirname, 'fixtures')
+read = fs.readFileSync
 
 describe 'API', ->
 
   it 'should expose render and renderFile', ->
-    Sneak.render.should.be.a 'function'
-    Sneak.renderFile.should.be.a 'function'
+    sneak.render.should.be.a 'function'
+    sneak.renderFile.should.be.a 'function'
 
   describe '.render()', ->
 
     it 'should fail to compile with a non-sneak string', ->
-      (-> Sneak.render('<html><head></head></html>')).should.throw()
+      (-> sneak.render('<html><head></head></html>')).should.throw()
 
     it 'should compile with a sneak string', ->
-      (-> Sneak.render('!5\nhtml\n  head')).should.not.throw()
+      (-> sneak.render('!5\nhtml\n  head')).should.not.throw()
 
     it 'should render with specified local', ->
-      Sneak.render('!5\nhtml\n  head\n    title #{foo!}', {foo: "bar"}).indexOf("bar").should.be.gt(-1)
+      sneak.render('!5\nhtml\n  head\n    title #{foo!}', {foo: "bar"}).indexOf("bar").should.be.gt(-1)
 
     it 'should render with specified include', ->
-      Sneak.render('!5\nhtml\n  head\n  body\n    = "include.sneak"', {}, {basepath: path.join(base_path, 'render')}).indexOf("h1").should.be.gt(-1)
+      sneak.render('!5\nhtml\n  head\n  body\n    = "include.sneak"', {basepath: path.join(__fixtures, 'render')}).indexOf("h1").should.be.gt(-1)
 
   describe '.renderFile()', ->
 
     it 'should throw error with an invalid path', ->
-      (-> Sneak.renderFile({path: "ack"})).should.throw()
+      (-> sneak.renderFile("ack")).should.throw()
 
     it 'should not throw error if file exists', ->
-      (-> Sneak.renderFile({path: path.join(base_path, 'renderFile/file.sneak')})).should.not.throw()
+      (-> sneak.renderFile(path.join(__fixtures, 'renderFile/file.sneak'))).should.not.throw()
 
     it 'should throw error if include references path which does not exist', ->
-      (-> Sneak.renderFile({path: path.join(base_path, 'renderFile/missing_include.sneak')})).should.throw()
+      (-> sneak.renderFile(path.join(__fixtures, 'renderFile/missing_include.sneak'))).should.throw()
 
     it 'should render include', ->
-      Sneak.renderFile({path: path.join(base_path, 'renderFile/include.sneak')}).should.eq("<!DOCTYPE html>")
+      sneak.renderFile(path.join(__fixtures, 'renderFile/include.sneak')).should.eq("<!DOCTYPE html>")
 
     it 'should render', ->
-      Sneak.renderFile({path: path.join(base_path, 'renderFile/render.sneak')}).should.eq("<!DOCTYPE html><html><head><title>Test</title></head><body><p>Hey</p></body></html>");
+      sneak.renderFile(path.join(__fixtures, 'renderFile/render.sneak')).should.eq("<!DOCTYPE html><html><head><title>Test</title></head><body><p>Hey</p></body></html>");
 
 describe 'doctypes', ->
 
   it 'should correctly render html5 doctype', ->
-    render('doctypes/5.sneak').should.eq('<!DOCTYPE html>')
+    sneak.render('! 5').should.eq('<!DOCTYPE html>')
 
 describe 'block', ->
 
   it 'should render a block element', ->
-    Sneak.render('- Posts:\n  p Hey').should.eq('{block:Posts}<p>Hey</p>{/block:Posts}')
+    sneak.render('- Posts:\n  p Hey').should.eq('{block:Posts}<p>Hey</p>{/block:Posts}')
 
 describe 'local', ->
 
   it 'should render a local', ->
-    Sneak.render('= foo!', {foo: "bar"}).should.eq('bar')
+    sneak.render('= foo!', {foo: "bar"}).should.eq('bar')
 
 describe 'variable', ->
 
   it 'should render a variable', ->
-    Sneak.render('= foo').should.eq('{foo}')
+    sneak.render('= foo').should.eq('{foo}')
 
 describe 'attrs', ->
 
   it 'should render an element with attributes', ->
-    Sneak.render('html(name: "test")').should.eq('<html name="test"></html>')
+    sneak.render('html(name: "test")').should.eq('<html name="test"></html>')
 
 describe 'tag', ->
 
   it 'should render a tag', ->
-    Sneak.render('div foo').should.eq('<div>foo</div>')
+    sneak.render('div foo').should.eq('<div>foo</div>')
 
   it 'should render an ID as a div with an ID attr', ->
-    Sneak.render('#test hey').should.eq('<div id="test">hey</div>')
+    sneak.render('#test hey').should.eq('<div id="test">hey</div>')
 
   it 'should render class selectors as a div with a class attr', ->
-    Sneak.render('.test.food hey').should.eq('<div class="test food">hey</div>')
+    sneak.render('.test.food hey').should.eq('<div class="test food">hey</div>')
 
 describe 'text', ->
 
   it 'should render all content inside a tag with a dot at the end as text', ->
-    Sneak.render('header.\n  Hey\n  Hey').should.eq('<header>Hey Hey</header>')
+    sneak.render('header.\n  Hey\n  Hey').should.eq('<header>Hey Hey</header>')
 
   it 'should render a line starting with a bar as text', ->
-    Sneak.render('| hey').should.eq('hey')
+    sneak.render('| hey').should.eq('hey')
 
 describe 'cli', ->
 
-  describe 'render', ->
+  it 'throws with invalid path', ->
+    cli.opts = { paths: ["!@$%^&*()"] }
+    (-> cli.exec()).should.throw();
 
-    it 'fails with no path', ->
-      (-> cli.run('render')).should.throw()
+  it 'does not throw with valid path', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/valid_path")] }
+    (-> cli.exec()).should.not.throw();
 
-    it 'fails with invalid path', ->
-      cli.run('render foo').code.should.equal('ENOENT')
+  it 'compiles a file', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/file/file.sneak")] }
+    cli.exec()
+    read(path.join(__fixtures, 'cli/file/file.html'), 'utf8').should.eq("<h1>Test</h1>");
 
-    it 'returns when path is valid', ->
-      p = path.join(base_path, 'doctypes/5.sneak')
-      cli.run("render #{p}").should.equal('<!DOCTYPE html>')
+  it 'compiles a folder', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/folder")] }
+    cli.exec()
+    read(path.join(__fixtures, 'cli/folder/folder.html'), 'utf8').should.eq("<h1>Test</h1>");
+    read(path.join(__fixtures, 'cli/folder/folder2.html'), 'utf8').should.eq("<h1>Test</h1>");
+
+  it 'compiles to another folder', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/folder")], out: path.join(__fixtures, "cli/another_folder") }
+    cli.exec()
+    read(path.join(__fixtures, 'cli/another_folder/folder.html'), 'utf8').should.eq("<h1>Test</h1>");
+    read(path.join(__fixtures, 'cli/another_folder/folder2.html'), 'utf8').should.eq("<h1>Test</h1>");
+
+  it 'compiles with specified extension', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/extension")], extension: '.htm' }
+    cli.exec()
+    read(path.join(__fixtures, 'cli/extension/extension.htm'), 'utf8').should.eq("<h1>test</h1>");
+
+  it 'compiles a client', ->
+    cli.opts = { paths: [path.join(__fixtures, "cli/client")], client: true }
+    cli.exec()
+    fn = new Function("return " + read(path.join(__fixtures, 'cli/client/client.js'), 'utf8'));
+    fn()({foo: "bar"}).should.eq('<h1>bar</h1><p>Why are we here?</p>');
