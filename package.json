@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "colors": "0.6.x",
-    "argparse": "*"
+    "argparse": "*",
+    "extend": "*"
   },
   "scripts": {
     "test": "mocha"
