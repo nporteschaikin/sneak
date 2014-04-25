@@ -35,9 +35,6 @@ html
 h1= Title
 p= Content
 ```
-
-becomes:
-
 ```html
 <!DOCTYPE html>
 <html>
