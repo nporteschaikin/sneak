@@ -1,4 +1,20 @@
 #!/usr/bin/env node
 
-var cli = require('../lib/cli');
-new cli(process).exec();
+var CLI = require('../lib/cli')
+  , pkg = require('../package.json')
+  , ArgParse = require('argparse').ArgumentParser
+  , parser = new ArgParse (
+    {
+      version:     pkg.version,
+      description: pkg.description,
+      addHelp:     true
+    }
+  )
+
+parser.addArgument( ["paths"],           { nargs: "*", metavar: "path" } )
+parser.addArgument( ["-o", "--out"],     { help: "out" } );
+parser.addArgument( ["-e", "--ext"],     { help: "ext", dest: "extension" } );
+parser.addArgument( ["-c", "--client"],  { help: "client", action: "storeTrue" } );
+
+new CLI(parser.parseArgs())
+  .exec();
