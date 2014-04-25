@@ -1,7 +1,7 @@
 sneak
 =============
 
-> sneak is in pre-alpha.  like, fresh-out-conception.  
+[![NPM version](https://badge.fury.io/js/sneak.svg)](http://badge.fury.io/js/sneak) [![tests](https://travis-ci.org/carrot/sneak.png?branch=master)](https://travis-ci.org/carrot/sneak)
 
 A template engine heavily insipired by [jade](http://www.github.com/visionmedia/jade) written with Tumblr in mind.
 
