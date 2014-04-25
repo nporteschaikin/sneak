@@ -15,6 +15,6 @@ When submitting a pull request, make sure that the code follows the general styl
 
 ### Running Tests
 
-To run tests, make sure you have `npm install`ed, then just run `mocha` in the root. If you'd like to run tests just for one specific adapter, you can use mocha's grep option, like this `mocha -g jade` - this would run just the jade test suite.
+To run tests, make sure you have `npm install`ed, then just run `mocha` in the root. 
 
 The way tests are set up is fairly simple, a folder in `fixtures` and a `describe` block for each adapter. All tests are currently compared to expected output through an pure javascript AST, to ensure compatibility across systems.
