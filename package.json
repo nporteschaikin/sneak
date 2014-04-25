@@ -2,7 +2,7 @@
   "name": "sneak",
   "version": "0.0.1",
   "author": "Carrot Creative <dev@carrotcreative.com>",
-  "description": "A template engine written for Tumblr",
+  "description": "A template engine written with Tumblr in mind.",
   "license": "MIT",
   "keywords": [
     "tumblr",
