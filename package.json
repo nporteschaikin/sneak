@@ -1,6 +1,6 @@
 {
   "name": "sneak",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Carrot Creative <dev@carrotcreative.com>",
   "description": "A template engine written with Tumblr in mind.",
   "license": "MIT",
