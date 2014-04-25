@@ -11,10 +11,10 @@ var CLI = require('../lib/cli')
     }
   )
 
-parser.addArgument( ["paths"],           { nargs: "*", metavar: "path" } )
-parser.addArgument( ["-o", "--out"],     { help: "out" } );
-parser.addArgument( ["-e", "--ext"],     { help: "ext", dest: "extension" } );
-parser.addArgument( ["-c", "--client"],  { help: "client", action: "storeTrue" } );
+parser.addArgument( ["paths"],           { nargs: "*", metavar: "path", help: "source of .sneak files (path or file)" } )
+parser.addArgument( ["-o", "--out"],     { help: "output to <dir>" } );
+parser.addArgument( ["-e", "--ext"],     { help: "output with <ext>", dest: "extension" } );
+parser.addArgument( ["-c", "--client"],  { help: "output client-side JavaScript", action: "storeTrue" } );
 
 new CLI(parser.parseArgs())
   .exec();
