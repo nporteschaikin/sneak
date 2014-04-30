@@ -100,6 +100,11 @@ describe 'tag', ->
   it 'should render class selectors as a div with a class attr', ->
     sneak.render('.test.food hey').should.eq('<div class="test food">hey</div>')
 
+describe 'close', ->
+
+  it 'should self-close', ->
+    sneak.render('meta/').should.eq('<meta />');
+
 describe 'text', ->
 
   it 'should render all content inside a tag with a dot at the end as text', ->
