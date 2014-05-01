@@ -88,6 +88,7 @@ h2.subtitle Subtitle
 #content Content
 .footer Footer
 footer(name: "bottom") Footer #2
+meta(name: "description", content: description)/
 ```
 ```html
 <h1>Title</h1>
@@ -95,6 +96,7 @@ footer(name: "bottom") Footer #2
 <div id="content">Content</div>
 <div class="footer">Footer</div>
 <footer name="bottom">Footer #2</footer>
+<meta name="description" content="{description}" />
 ```
 
 #### Text:
@@ -149,12 +151,12 @@ h1 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ```
 h1 #{foo!}
-h2- bar!
+h2(name: name!)- bar!
 ```
 ```html
-<!-- assuming foo is "bar" and bar is "foo" -->
+<!-- assuming foo is "bar", bar is "foo", and name is "subheader" -->
 <h1>bar</h1>
-<h2>foo</h2>
+<h2 name="subheader">foo</h2>
 ```
 ### Usage
 
