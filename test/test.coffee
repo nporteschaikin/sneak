@@ -100,6 +100,12 @@ describe 'tag', ->
   it 'should render class selectors as a div with a class attr', ->
     sneak.render('.test.food hey').should.eq('<div class="test food">hey</div>')
 
+  it 'should render interpolated locals in blocks', ->
+    sneak.render('div(name: foo!)', {foo: 'bar'}).should.eq('<div name="bar"></div>')
+
+  it 'should render interpolated tags in blocks', ->
+    sneak.render('div(name: foo)').should.eq('<div name="{foo}"></div>')
+
 describe 'close', ->
 
   it 'should self-close', ->
