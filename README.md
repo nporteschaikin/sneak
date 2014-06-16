@@ -145,6 +145,17 @@ h1 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 {/block:Posts}
 ```
 
+#### Comment:
+
+> Include comments
+
+```
+// Hello
+```
+``` html
+<!-- Hello -->
+```
+
 #### Locals:
 
 > Sneak also accepts locals.  Syntactically, they are variables with an exclamation mark appended to the end.
