@@ -119,6 +119,11 @@ describe 'text', ->
   it 'should render a line starting with a bar as text', ->
     sneak.render('| hey').should.eq('hey')
 
+describe 'comment', ->
+
+  it 'should render comments', ->
+    sneak.render('header\n  // hello').should.eq('<header><!-- hello --></header>')
+
 describe 'cli', ->
 
   it 'throws with invalid path', ->

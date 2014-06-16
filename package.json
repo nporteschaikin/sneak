@@ -1,6 +1,6 @@
 {
   "name": "sneak",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Noah Portes Chaikin <noah.porteschaikin@carrotcreative.com>",
   "description": "A template engine written with Tumblr in mind.",
   "license": "MIT",
